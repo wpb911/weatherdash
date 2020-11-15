@@ -7,6 +7,7 @@
 </head>
 
 <body>
+ 
   <!-- Retrieved data will be dumped here -->
   <div class="city"></div>
   <div class="wind"></div>
@@ -16,11 +17,19 @@
 
   <!-- Add extra div for the bonus Fahrenheit temp -->
   <div class="tempF"></div>
-<!-- Add extra div for UV -->
+  <!-- Add extra divs for UV info-->
+  <div class="lat"></div>
+  <div class="lon"></div>
   <div class="uv"></div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script type="text/javascript">
+    
+    // Global Variables
+    var uvlat = ""; 
+    var uvlon = ""; 
+
+    
     // This is our API key
     var APIKey = "f1ae5ec6cb6b9f1dfc10836e21d90fc2";
 
@@ -42,6 +51,9 @@
 
         // Log the resulting object
         console.log(response);
+        //Grab lat and lon for UV call 
+        uvlat = response.coord.lat;
+        uvlon = response.coord.lon;
 
         // Transfer content to HTML
         $(".city").html("<h1>" + response.name + " Weather Details</h1>");
@@ -53,17 +65,25 @@
 
         // add temp content to html
         $(".temp").text("Temperature (K) " + response.main.temp);
-        $(".tempF").text("Temperature (F) " + tempF.toFixed(2));
+      
+        $(".lat").text("Latitude) " + response.coord.lat);
+        $(".lon").text("Longitude  " + response.coord.lon);
+
 
         // Log the data in the console as well
         console.log("Wind Speed: " + response.wind.speed);
         console.log("Humidity: " + response.main.humidity);
         console.log("Temperature (F): " + tempF);
+        console.log("uvlat "   + + uvlat);
+        console.log("uvlon " + uvlon);
       });
 
       //use AJAX to get UV info 
-      var uvQueryURL = "http://api.openweathermap.org/data/2.5/uvi?lat=-3.38&lon=29.36&appid=" + APIKey;
-
+      console.log("uvlat "   + + uvlat);
+      console.log("uvlon " + uvlon);
+      var uvQueryURL = "http://api.openweathermap.org/data/2.5/uvi?" + uvlat + '&' + uvlon + "&appid=" + APIKey;
+      console.log(uvQueryURL);
+      
       $.ajax({
       url: uvQueryURL,
       method: "GET"
@@ -78,13 +98,14 @@
         console.log(uvResponse);
 
         // Transfer content to HTML
-      
+        $(".tempF").text("Temperature (F) " + tempF.toFixed(2));
         $(".uv").text("UV: " + uvResponse.value);
         
         
 
         // Log the data in the console as well
         console.log("UV: " + uvResponse.value);
+        console.log("Temperature (F): " + tempF);
         
       });
   </script>
