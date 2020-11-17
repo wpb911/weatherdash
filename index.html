@@ -7,7 +7,11 @@
 </head>
 
 <body>
- 
+  
+  <label for="name">Search for a City </label>
+  <br>
+  <input id="city" type="text" name="City" placeholder="Enter city name here" > 
+
   <!-- Retrieved data will be dumped here -->
   <div class="city"></div>
   <div class="wind"></div>
@@ -29,19 +33,10 @@
   <script type="text/javascript">
     
     // Global Variables
-    var uvLat; 
-    var uvLon; 
-
     var lat;
     var lon;
 
-    //functions
-    function uvlat(){
-      return lat;
-    };
-    function uvlon(){
-      return lon;
-    };
+    
     
     // This is our API key
     var APIKey = "f1ae5ec6cb6b9f1dfc10836e21d90fc2";
@@ -81,20 +76,17 @@
         $(".lat").text("Latitude: " + response.coord.lat);
         $(".lon").text("Longitude:  " + response.coord.lon);
         
+        //store latitude and longitude for the UV call
         lat = response.coord.lat;
         lon = response.coord.lon;
 
-        uvLat = uvlat();
-        uvLon = uvlon();
-
-
-
+        
         // Log the data in the console as well
         console.log("Wind Speed: " + response.wind.speed);
         console.log("Humidity: " + response.main.humidity);
         console.log("Temperature (F): " + tempF);
-        console.log("uvlat "   + + uvlat());
-        console.log("uvlon " + uvlon());
+        console.log("uvlat "   + + lat);
+        console.log("uvlon " + lon);
 
         //use AJAX to get UV info 
         console.log("uvlat= " + lat);
