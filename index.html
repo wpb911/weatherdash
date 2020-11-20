@@ -3,54 +3,105 @@
 
 <head>
   <meta charset="utf-8">
-  <title>Bujumbura Data</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <title>Weather Data</title>
 </head>
 
 <body>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12">
+        
+          <h1 class="col-12 text-center text-white bg-secondary">Weather Dash Board</h1>
+       
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-2">
+        <div class="input-group mb-3">
+          <input id="city-input" type="text" class="form-control" placeholder="Enter City Name" aria-label="Recipient's username" aria-describedby="button-addon2">
+          <div class="input-group-append">
+            <button id="add-city" class="btn btn-outline-secondary" type="button" id="button-addon2">Search</button>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-md-6">
+        <div class="city"></div> 
+        <div class="tempF"></div>       
+        
+        <div class="humidity"></div>
+        <div class="wind"></div>
+        <div class="uv"></div>
+      </div>
+    <div class="row">
+      <div class="col">            
+        <div class="day0date"></div>
+        <div class="day0temp"></div>
+        <div class="day0humid"></div>
+      </div>
+    </div>
+  </div>
+
+
+      
+        <!-- Add extra div for the bonus Fahrenheit  
+          <div class="temp"></div>temp -->
+       
+        <!-- Add extra divs for UV info
+        <div class="lat"></div>
+        <div class="lon"></div>
+        -->
+       
+        
+      
+    
   
-  <label for="name">Search for a City </label>
-  <br>
-  <input id="city" type="text" name="City" placeholder="Enter city name here" > 
-
   <!-- Retrieved data will be dumped here -->
-  <div class="city"></div>
-  <div class="wind"></div>
-  <div class="humidity"></div>
-  <div class="temp"></div>
- 
+  
 
-  <!-- Add extra div for the bonus Fahrenheit temp -->
-  <div class="tempF"></div>
-  <!-- Add extra divs for UV info-->
-  <div class="lat"></div>
-  <div class="lon"></div>
-  <div class="uv"></div>
+  
 
-   <!-- Load jQuery and Moment.js -->
+  <!-- Add extra divs for forcast info-->
+
+  <!-- Load jQuery and Moment.js -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
   
   <script type="text/javascript">
-    
     // Global Variables
     var lat;
     var lon;
+    // var cityInput = "";
 
-    
-    
-    // This is our API key
-    var APIKey = "f1ae5ec6cb6b9f1dfc10836e21d90fc2";
 
-    // Here we are building the URL we need to query the database
-    var queryURL = "https://api.openweathermap.org/data/2.5/weather?" +
-      "q=Bujumbura,Burundi&appid=" + APIKey;
 
-    
-    // Here we run our AJAX call to the OpenWeatherMap API
-    $.ajax({
-      url: queryURL,
-      method: "GET"
-    })
+    // This function handles events where one button is clicked
+    $("#add-city").on("click", function(event) {
+      // event.preventDefault() prevents the form from trying to submit itself.
+      
+      event.preventDefault();
+
+      // This line will grab the text from the input box
+      var cityInput = $("#city-input").val().trim();
+      console.log(cityInput);
+      // calling renderButtons which handles the processing of our array
+      //renderButtons();
+              
+      // This is our API key
+      var APIKey = "f1ae5ec6cb6b9f1dfc10836e21d90fc2";
+
+      // Here we are building the URL we need to query the database
+      var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" +
+      cityInput + "&appid=" + APIKey;
+      console.log(queryURL);
+
+      // Here we run our AJAX call to the OpenWeatherMap API
+      $.ajax({
+        url: queryURL,
+        method: "GET"
+      })
       // We store all of the retrieved data inside of an object called "response"
       .then(function(response) {
 
@@ -60,7 +111,7 @@
         // Log the resulting object
         console.log(response);
         //Grab lat and lon for UV call 
-        
+      
         // Transfer content to HTML
         $(".city").html("<h1>" + response.name + " Weather Details</h1>");
         $(".wind").text("Wind Speed: " + response.wind.speed);
@@ -70,12 +121,12 @@
         var tempF = (response.main.temp - 273.15) * 1.80 + 32;
 
         // add temp content to html
-        $(".temp").text("Temperature (K) " + response.main.temp);
+        //$(".temp").text("Temperature (K) " + response.main.temp);
         $(".tempF").text("Temperature (F) " + tempF.toFixed(2));
 
         $(".lat").text("Latitude: " + response.coord.lat);
         $(".lon").text("Longitude:  " + response.coord.lon);
-        
+      
         //store latitude and longitude for the UV call
         lat = response.coord.lat;
         lon = response.coord.lon;
@@ -94,16 +145,16 @@
         //var uvQueryURL = "http://api.openweathermap.org/data/2.5/uvi?lat=-3.38&lon=29.36&appid=" + APIKey;
         var uvQueryURL = "http://api.openweathermap.org/data/2.5/uvi?lat=" +lat + "&lon=" + lon + "&appid=" + APIKey;
         console.log(uvQueryURL);
-      
+  
         $.ajax({
           url: uvQueryURL,
           method: "GET"
         })
-          // We store all of the retrieved data inside of an object called "response"
+          // We store all of the retrieved data inside of an object called "uvResponse"
           .then(function(uvResponse) {
 
             // Log the queryURL
-            console.log(uvQueryURL);
+            //console.log(uvQueryURL);
 
             // Log the resulting object
             console.log(uvResponse);
@@ -112,29 +163,55 @@
             
             $(".uv").text("UV: " + uvResponse.value);
             
-            
+          
 
             // Log the data in the console as well
-            console.log("UV: " + uvResponse.value);
+            //console.log("UV: " + uvResponse.value);
             //console.log("Temperature (F): " + tempF);
-            
-        });
+        
+          });
 
+            //use AJAX to get forecast info 
+            var forecastQueryURL = "https://api.openweathermap.org/data/2.5/forecast?q=" +
+            cityInput + "&appid=" + APIKey;
+            $.ajax({
+              url: forecastQueryURL,
+              method: "GET"
+            })
+            // We store all of the retrieved data inside of an object called "forecastResponse"
+            .then(function(forecastResponse) {
 
+              // Log the queryURL
+              console.log(forecastQueryURL);
 
+              // Log the resulting object
+              console.log(forecastResponse);
 
+              // Transfer content to HTML
+              const str = forecastResponse.list[0].dt_txt
+              const oneDate = str.split(' ');
+              $(".day0date").text("Date: " + oneDate[0]);
+              console.log("date: " + forecastResponse.list[0].dt_txt);
+              var tempF0 = (forecastResponse.list[0].main.temp - 273.15) * 1.80 + 32;
+              $(".day0temp").text("Temp F: " + tempF0.toFixed(2));
+              $(".day0humid").text("Humidity:  " + forecastResponse.list[0].main.humidity);
+              // Log the data in the console as well
+              //console.log("UV: " + uvResponse.value);
+              //console.log("Temperature (F): " + tempF);
+          
+            });
 
-
-
-
+      });
 
     });
 
+    // Calling the renderButtons function at least once to display the initial list of cities
+    //renderButtons();
+    
       
   </script>
 
-<script src="script.js"></script> 
+  <script src="script.js"></script> 
 
 </body>
-
 </html>
