@@ -24,6 +24,13 @@
           <div class="input-group-append">
             <button id="add-city" class="btn btn-outline-secondary" type="button" id="button-addon2">Search</button>
           </div>
+          <div id="cities-view" class="list-group">
+            <button type="button" class="list-group-item list-group-item-action">Laurens</button>
+            <button type="button" class="list-group-item list-group-item-action">Columbia</button>
+            <button type="button" class="list-group-item list-group-item-action">New York</button>
+            <button type="button" class="list-group-item list-group-item-action">San Francisco</button>
+            <button type="button" class="list-group-item list-group-item-action" >Raleigh</button>
+          </div>
         </div>
       </div>
       
@@ -73,21 +80,55 @@
     // Global Variables
     var lat;
     var lon;
+
+    // Initial array of cities
+    var cities = ["Laurens", "Columbia", "New York", "San Francisco", "Raleigh"];
     // var cityInput = "";
 
+    function updateButtons() {
 
+      // Deleting the movie buttons prior to adding new movie buttons
+      // (this is necessary otherwise we will have repeat buttons)
+      $("#cities-view").empty();
 
-    // This function handles events where one button is clicked
+      // Looping through the array of movies
+      for (var i = 0; i < cities.length; i++) {
+
+        // Then dynamicaly generating buttons for each movie in the array.
+        // This code $("<button>") is all jQuery needs to create the start and end tag. (<button></button>)
+        var a = $("<button>");
+        // Adding a class
+        a.addClass("list-group-item list-group-item-action");
+        // Adding a data-attribute with a value of the movie at index i
+        a.attr("data-name", cities[i]);
+        // Providing the button's text with a value of the movie at index i
+        a.text(cities[i]);
+        // Adding the button to the HTML
+        $("#cities-view").append(a);
+      }
+    }
     $("#add-city").on("click", function(event) {
+      event.preventDefault();
+      
+      var city = $("#city-input").val().trim();
+      cities.push(city);
+
+      //update cities array 
+      updateButtons();
+
+    });
+
+    // This function display all the city weather data
+    function displayCityInfo() {
       // event.preventDefault() prevents the form from trying to submit itself.
       
-      event.preventDefault();
+      //event.preventDefault();
 
       // This line will grab the text from the input box
-      var cityInput = $("#city-input").val().trim();
+      var cityInput = $(this).attr("data-name");
       console.log(cityInput);
-      // calling renderButtons which handles the processing of our array
-      //renderButtons();
+      // calling updateButtons which handles the processing of our array
+      
               
       // This is our API key
       var APIKey = "f1ae5ec6cb6b9f1dfc10836e21d90fc2";
@@ -203,11 +244,15 @@
 
       });
 
-    });
+    };
+
+  
 
     // Calling the renderButtons function at least once to display the initial list of cities
     //renderButtons();
-    
+    $(document).on("click", ".list-group-item ", displayCityInfo);
+
+    updateButtons();
       
   </script>
 
