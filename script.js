@@ -105,7 +105,7 @@
         console.log("uvlat= " + lat);
         console.log("uvlon= " + lon);
         //var uvQueryURL = "http://api.openweathermap.org/data/2.5/uvi?lat=-3.38&lon=29.36&appid=" + APIKey;
-        var uvQueryURL = "http://api.openweathermap.org/data/2.5/uvi?lat=" +lat + "&lon=" + lon + "&appid=" + APIKey;
+        var uvQueryURL = "https://api.openweathermap.org/data/2.5/uvi?lat=" +lat + "&lon=" + lon + "&appid=" + APIKey;
         console.log(uvQueryURL);
   
         $.ajax({
