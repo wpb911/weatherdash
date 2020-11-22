@@ -65,8 +65,14 @@ $("#add-city").on("click", function(event) {
   // We store all of the retrieved data inside of an object called "response"
   .then(function(response) {
 
-        // display current weather content 
-    $(".city").html("<h1>" + response.name + "(" + moment().format('l') + ")" + "</h1>");
+    //add weather icon to header 
+    let wicon = response.weather[0].id;
+    let owcode = "owf-" + wicon;
+    let owclass =  "<i class='owf " + owcode +'\'' + '></i>';
+    console.log("the class string =" +owclass);
+  
+    // Transfer content to HTML  sample icon owfont (<i class="owf owf-200"></i>)
+    $(".city").html("<h1>" + response.name + "(" + moment().format('l') + ")" + owclass + "</h1>");
     $(".wind").text("Wind Speed: " + response.wind.speed);
     $(".humidity").text("Humidity: " + response.main.humidity);
     
@@ -111,25 +117,53 @@ $("#add-city").on("click", function(event) {
         
         //UV Index
         $(".uv").text("UV: " + uvResponse.current.uvi);
+
+        //add weather icons for 5 day forecast 
+        let wicon1 = uvResponse.daily[1].weather[0].id;
+        let owcode1 = "owf-" + wicon;
+        let owclass1 =  "<i class='owf " + owcode1 +'\'' + '></i>';
+
+        let wicon2 = uvResponse.daily[2].weather[0].id;
+        let owcode2 = "owf-" + wicon;
+        let owclass2 =  "<i class='owf " + owcode2 +'\'' + '></i>';
+
+        let wicon3 = uvResponse.daily[3].weather[0].id;
+        let owcode3 = "owf-" + wicon;
+        let owclass3 =  "<i class='owf " + owcode3 +'\'' + '></i>';
+
+        let wicon4 = uvResponse.daily[4].weather[0].id;
+        let owcode4 = "owf-" + wicon;
+        let owclass4 =  "<i class='owf " + owcode4 +'\'' + '></i>';
+
+        let wicon5 = uvResponse.daily[5].weather[0].id;
+        let owcode5 = "owf-" + wicon;
+        let owclass5 =  "<i class='owf " + owcode5 +'\'' + '></i>';
+      
+
         
         //Daily forcasts from onecall API 
         $(".day1date").text("Date: " + moment(md).add(oneDay).format('l'));
+        $(".day1icon").html(owclass1);
         $(".day1temp").text("Temp F: " + uvResponse.daily[1].temp.day);
         $(".day1humid").text("Humidity:  " + uvResponse.daily[1].humidity);
         
         $(".day2date").text("Date: " + moment(md).add(twoDay).format('l'));
+        $(".day2icon").html(owclass2);
         $(".day2temp").text("Temp F: " + uvResponse.daily[2].temp.day);
         $(".day2humid").text("Humidity:  " + uvResponse.daily[2].humidity);
         
         $(".day3date").text("Date: " + moment(md).add(threeDay).format('l'));
+        $(".day3icon").html(owclass3);
         $(".day3temp").text("Temp F: " + uvResponse.daily[3].temp.day);
         $(".day3humid").text("Humidity:  " + uvResponse.daily[3].humidity);
         
         $(".day4date").text("Date: " + moment(md).add(fourDay).format('l'));
+        $(".day4icon").html(owclass4);
         $(".day4temp").text("Temp F: " + uvResponse.daily[4].temp.day);
         $(".day4humid").text("Humidity:  " + uvResponse.daily[4].humidity);
         
         $(".day5date").text("Date: " + moment(md).add(fiveDay).format('l'));
+        $(".day5icon").html(owclass5);
         $(".day5temp").text("Temp F: " + uvResponse.daily[5].temp.day);
         $(".day5humid").text("Humidity:  " + uvResponse.daily[5].humidity);        
     
@@ -177,15 +211,15 @@ function displayCityInfo() {
   // We store all of the retrieved data inside of an object called "response"
   .then(function(response) {
 
-    // Log the queryURL
-    console.log(queryURL);
-
-    // Log the resulting object
-    console.log(response);
-    //Grab lat and lon for UV call 
+    
+    //add weather icon to header 
+    var wicon = response.weather[0].id;
+    var owcode = "owf-" + wicon;
+    var owclass =  "<i class='owf " + owcode +'\'' + '></i>';
+    console.log("the class string =" +owclass);
   
-    // Transfer content to HTML
-    $(".city").html("<h1>" + response.name + "(" + moment().format('l') + ")" + "</h1>");
+    // Transfer content to HTML  sample icon owfont (<i class="owf owf-200"></i>)
+    $(".city").html("<h1>" + response.name + "(" + moment().format('l') + ")" + owclass + "</h1>");
     $(".wind").text("Wind Speed: " + response.wind.speed);
     $(".humidity").text("Humidity: " + response.main.humidity);
     
@@ -247,26 +281,59 @@ function displayCityInfo() {
         //UV Index
         $(".uv").text("UV: " + uvResponse.current.uvi);
         
+        //add weather icons for 5 day forecast 
+        let wicon1 = uvResponse.daily[1].weather[0].id;
+        let owcode1 = "owf-" + wicon1;
+        let owclass1 =  "<i class='owf " + owcode1 +'\'' + '></i>';
+
+        let wicon2 = uvResponse.daily[2].weather[0].id;
+        let owcode2 = "owf-" + wicon2;
+        let owclass2 =  "<i class='owf " + owcode2 +'\'' + '></i>';
+
+        let wicon3 = uvResponse.daily[3].weather[0].id;
+        let owcode3 = "owf-" + wicon3;
+        let owclass3 =  "<i class='owf " + owcode3 +'\'' + '></i>';
+
+        let wicon4 = uvResponse.daily[4].weather[0].id;
+        let owcode4 = "owf-" + wicon4;
+        let owclass4 =  "<i class='owf " + owcode4 +'\'' + '></i>';
+
+        let wicon5 = uvResponse.daily[5].weather[0].id;
+        let owcode5 = "owf-" + wicon5;
+        let owclass5 =  "<i class='owf " + owcode5 +'\'' + '></i>';
+      
+        console.log("iconcode :" + wicon1 + "owclass :" + owcode1);
+        console.log("iconcode :" + wicon2 + "owclass :" + owcode2);
+        console.log("iconcode :" + wicon3 + "owclass :" + owcode3);
+        console.log("iconcode :" + wicon4 + "owclass :" + owcode4);
+        console.log("iconcode :" + wicon5 + "owclass :" + owcode5);
+        
         //Daily forcasts from onecall API 
         $(".day1date").text("Date: " + moment(md).add(oneDay).format('l'));
+        $(".day1icon").html(owclass1);
         $(".day1temp").text("Temp F: " + uvResponse.daily[1].temp.day);
         $(".day1humid").text("Humidity:  " + uvResponse.daily[1].humidity);
         
         $(".day2date").text("Date: " + moment(md).add(twoDay).format('l'));
+        $(".day2icon").html(owclass2);
         $(".day2temp").text("Temp F: " + uvResponse.daily[2].temp.day);
         $(".day2humid").text("Humidity:  " + uvResponse.daily[2].humidity);
         
         $(".day3date").text("Date: " + moment(md).add(threeDay).format('l'));
+        $(".day3icon").html(owclass3);
         $(".day3temp").text("Temp F: " + uvResponse.daily[3].temp.day);
         $(".day3humid").text("Humidity:  " + uvResponse.daily[3].humidity);
         
         $(".day4date").text("Date: " + moment(md).add(fourDay).format('l'));
+        $(".day4icon").html(owclass4);
         $(".day4temp").text("Temp F: " + uvResponse.daily[4].temp.day);
         $(".day4humid").text("Humidity:  " + uvResponse.daily[4].humidity);
         
         $(".day5date").text("Date: " + moment(md).add(fiveDay).format('l'));
+        $(".day5icon").html(owclass5);
         $(".day5temp").text("Temp F: " + uvResponse.daily[5].temp.day);
         $(".day5humid").text("Humidity:  " + uvResponse.daily[5].humidity);        
+           
     
       });
         
