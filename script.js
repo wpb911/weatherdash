@@ -120,23 +120,23 @@ $("#add-city").on("click", function(event) {
 
         //add weather icons for 5 day forecast 
         let wicon1 = uvResponse.daily[1].weather[0].id;
-        let owcode1 = "owf-" + wicon;
+        let owcode1 = "owf-" + wicon1;
         let owclass1 =  "<i class='owf " + owcode1 +'\'' + '></i>';
 
         let wicon2 = uvResponse.daily[2].weather[0].id;
-        let owcode2 = "owf-" + wicon;
+        let owcode2 = "owf-" + wicon2;
         let owclass2 =  "<i class='owf " + owcode2 +'\'' + '></i>';
 
         let wicon3 = uvResponse.daily[3].weather[0].id;
-        let owcode3 = "owf-" + wicon;
+        let owcode3 = "owf-" + wicon3;
         let owclass3 =  "<i class='owf " + owcode3 +'\'' + '></i>';
 
         let wicon4 = uvResponse.daily[4].weather[0].id;
-        let owcode4 = "owf-" + wicon;
+        let owcode4 = "owf-" + wicon4;
         let owclass4 =  "<i class='owf " + owcode4 +'\'' + '></i>';
 
         let wicon5 = uvResponse.daily[5].weather[0].id;
-        let owcode5 = "owf-" + wicon;
+        let owcode5 = "owf-" + wicon5;
         let owclass5 =  "<i class='owf " + owcode5 +'\'' + '></i>';
       
 
