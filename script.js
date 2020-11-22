@@ -44,9 +44,11 @@ $("#add-city").on("click", function(event) {
   event.preventDefault();
   
   var city = $("#city-input").val().trim();
+
+
   console.log("City = " + city);
   // 
-  cities.unshift(city);
+  
  
 
   // This is our API key
@@ -170,6 +172,14 @@ $("#add-city").on("click", function(event) {
       });
 
   });
+
+  //capitalize the city 
+  let capcity = city.charAt(0).toUpperCase();
+  capcity = capcity + city.slice(1);
+  city = capcity;
+  
+  //add new city to top of list 
+  cities.unshift(city);
 
   // store the cities list to local storage 
   localStorage.setItem("weatherCities", JSON.stringify(cities));
