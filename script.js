@@ -144,27 +144,27 @@ $("#add-city").on("click", function(event) {
 
         
         //Daily forcasts from onecall API 
-        $(".day1date").text("Date: " + moment(md).add(oneDay).format('l'));
+        $(".day1date").text(moment(md).add(oneDay).format('l'));
         $(".day1icon").html(owclass1);
         $(".day1temp").text("Temp F: " + uvResponse.daily[1].temp.day);
         $(".day1humid").text("Humidity:  " + uvResponse.daily[1].humidity);
         
-        $(".day2date").text("Date: " + moment(md).add(twoDay).format('l'));
+        $(".day2date").text(moment(md).add(twoDay).format('l'));
         $(".day2icon").html(owclass2);
         $(".day2temp").text("Temp F: " + uvResponse.daily[2].temp.day);
         $(".day2humid").text("Humidity:  " + uvResponse.daily[2].humidity);
         
-        $(".day3date").text("Date: " + moment(md).add(threeDay).format('l'));
+        $(".day3date").text(moment(md).add(threeDay).format('l'));
         $(".day3icon").html(owclass3);
         $(".day3temp").text("Temp F: " + uvResponse.daily[3].temp.day);
         $(".day3humid").text("Humidity:  " + uvResponse.daily[3].humidity);
         
-        $(".day4date").text("Date: " + moment(md).add(fourDay).format('l'));
+        $(".day4date").text(moment(md).add(fourDay).format('l'));
         $(".day4icon").html(owclass4);
         $(".day4temp").text("Temp F: " + uvResponse.daily[4].temp.day);
         $(".day4humid").text("Humidity:  " + uvResponse.daily[4].humidity);
         
-        $(".day5date").text("Date: " + moment(md).add(fiveDay).format('l'));
+        $(".day5date").text(moment(md).add(fiveDay).format('l'));
         $(".day5icon").html(owclass5);
         $(".day5temp").text("Temp F: " + uvResponse.daily[5].temp.day);
         $(".day5humid").text("Humidity:  " + uvResponse.daily[5].humidity);        
@@ -177,7 +177,7 @@ $("#add-city").on("click", function(event) {
   let capcity = city.charAt(0).toUpperCase();
   capcity = capcity + city.slice(1);
   city = capcity;
-  
+
   //add new city to top of list 
   cities.unshift(city);
 
@@ -288,6 +288,7 @@ function displayCityInfo() {
         var fiveDay = moment.duration({'days' : 5});
         var md = moment();
         
+
         //UV Index
         $(".uv").text("UV: " + uvResponse.current.uvi);
         
@@ -319,27 +320,27 @@ function displayCityInfo() {
         console.log("iconcode :" + wicon5 + "owclass :" + owcode5);
         
         //Daily forcasts from onecall API 
-        $(".day1date").text("Date: " + moment(md).add(oneDay).format('l'));
+        $(".day1date").text(moment(md).add(oneDay).format('l'));
         $(".day1icon").html(owclass1);
         $(".day1temp").text("Temp F: " + uvResponse.daily[1].temp.day);
         $(".day1humid").text("Humidity:  " + uvResponse.daily[1].humidity);
         
-        $(".day2date").text("Date: " + moment(md).add(twoDay).format('l'));
+        $(".day2date").text(moment(md).add(twoDay).format('l'));
         $(".day2icon").html(owclass2);
         $(".day2temp").text("Temp F: " + uvResponse.daily[2].temp.day);
         $(".day2humid").text("Humidity:  " + uvResponse.daily[2].humidity);
         
-        $(".day3date").text("Date: " + moment(md).add(threeDay).format('l'));
+        $(".day3date").text(moment(md).add(threeDay).format('l'));
         $(".day3icon").html(owclass3);
         $(".day3temp").text("Temp F: " + uvResponse.daily[3].temp.day);
         $(".day3humid").text("Humidity:  " + uvResponse.daily[3].humidity);
         
-        $(".day4date").text("Date: " + moment(md).add(fourDay).format('l'));
+        $(".day4date").text(moment(md).add(fourDay).format('l'));
         $(".day4icon").html(owclass4);
         $(".day4temp").text("Temp F: " + uvResponse.daily[4].temp.day);
         $(".day4humid").text("Humidity:  " + uvResponse.daily[4].humidity);
         
-        $(".day5date").text("Date: " + moment(md).add(fiveDay).format('l'));
+        $(".day5date").text(moment(md).add(fiveDay).format('l'));
         $(".day5icon").html(owclass5);
         $(".day5temp").text("Temp F: " + uvResponse.daily[5].temp.day);
         $(".day5humid").text("Humidity:  " + uvResponse.daily[5].humidity);        
