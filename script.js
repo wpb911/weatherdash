@@ -3,8 +3,163 @@ var lat;
 var lon;
 
 // Initial array of cities
-var cities = ["Laurens", "Columbia", "New York", "San Francisco", "Raleigh"];
+var cities = ["Columbus", "Laurens", "Columbia", "New York"];
 
+//display the intial city information and preloaded cities to begin the program 
+function weatherStart() {
+  
+  
+  var city = $("#city-input").val().trim();
+
+
+  console.log("City = " + city);
+  
+  // This is our API key
+  var APIKey = "f1ae5ec6cb6b9f1dfc10836e21d90fc2";
+
+  // Here we are building the URL we need to query the database
+  var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" +
+  "columbus" + "&appid=" + APIKey;
+  console.log(queryURL);
+
+  // Here we run our AJAX call to the OpenWeatherMap API
+  $.ajax({
+    url: queryURL,
+    method: "GET"
+  })
+  // We store all of the retrieved data inside of an object called "response"
+  .then(function(response) {
+
+    //add weather icon to header 
+    let wicon = response.weather[0].id;
+    let owcode = "owf-" + wicon;
+    let owclass =  "<i class='owf " + owcode +'\'' + '></i>';
+    console.log("the class string =" +owclass);
+  
+    // Transfer content to HTML  sample icon owfont (<i class="owf owf-200"></i>)
+    $(".city").html("<h1>" + response.name + "(" + moment().format('l') + ")" + owclass + "</h1>");
+    $(".wind").text("Wind Speed: " + response.wind.speed);
+    $(".humidity").text("Humidity: " + response.main.humidity);
+    
+    // Convert the temp to fahrenheit
+    var tempF = (response.main.temp - 273.15) * 1.80 + 32;
+
+    // display temp as fahrenheit    
+    $(".tempF").text("Temperature (F) " + tempF.toFixed(2));
+
+    //store latitude and longitude for the UV call
+    lat = response.coord.lat;
+    lon = response.coord.lon;    
+        
+    //https://api.openweathermap.org/data/2.5/onecall?lat=30.489772&lon=-99.771335&exclude=hourly,minutely,alerts&units=imperial
+    var uvQueryURL = "https://api.openweathermap.org/data/2.5/onecall?lat=" +lat + 
+    "&lon=" + lon + "&exclude=hourly,minutely,alerts&units=imperial&appid=" + APIKey;
+
+    console.log(uvQueryURL);
+
+    $.ajax({
+      url: uvQueryURL,
+      method: "GET"
+    })
+      // We store all of the retrieved data inside of an object called "uvResponse"
+      .then(function(uvResponse) {
+
+        // Log the queryURL
+        //console.log(uvQueryURL);
+
+        // Log the resulting object
+        console.log(uvResponse);
+
+        // Transfer content to HTML
+        var toDay = moment().day()
+        var nextDay  = moment().day() + 1
+        console.log("toDay = " + toDay);
+        console.log("nextDay = " + nextDay );
+        var oneDay = moment.duration({'days' : 1});
+        var twoDay = moment.duration({'days' : 2});
+        var threeDay = moment.duration({'days' : 3});
+        var fourDay = moment.duration({'days' : 4});
+        var fiveDay = moment.duration({'days' : 5});
+        var md = moment();
+        
+        //UV Index
+        $(".uv").text("UV: " + uvResponse.current.uvi);
+
+        //add weather icons for 5 day forecast 
+        let wicon1 = uvResponse.daily[1].weather[0].id;
+        let owcode1 = "owf-" + wicon1;
+        let owclass1 =  "<i class='owf " + owcode1 +'\'' + '></i>';
+
+        let wicon2 = uvResponse.daily[2].weather[0].id;
+        let owcode2 = "owf-" + wicon2;
+        let owclass2 =  "<i class='owf " + owcode2 +'\'' + '></i>';
+
+        let wicon3 = uvResponse.daily[3].weather[0].id;
+        let owcode3 = "owf-" + wicon3;
+        let owclass3 =  "<i class='owf " + owcode3 +'\'' + '></i>';
+
+        let wicon4 = uvResponse.daily[4].weather[0].id;
+        let owcode4 = "owf-" + wicon4;
+        let owclass4 =  "<i class='owf " + owcode4 +'\'' + '></i>';
+
+        let wicon5 = uvResponse.daily[5].weather[0].id;
+        let owcode5 = "owf-" + wicon5;
+        let owclass5 =  "<i class='owf " + owcode5 +'\'' + '></i>';
+      
+
+        
+        //Daily forcasts from onecall API 
+        $(".day1date").text(moment(md).add(oneDay).format('l'));
+        $(".day1icon").html(owclass1);
+        $(".day1temp").text("Temp F: " + uvResponse.daily[1].temp.day);
+        $(".day1humid").text("Humidity:  " + uvResponse.daily[1].humidity);
+        
+        $(".day2date").text(moment(md).add(twoDay).format('l'));
+        $(".day2icon").html(owclass2);
+        $(".day2temp").text("Temp F: " + uvResponse.daily[2].temp.day);
+        $(".day2humid").text("Humidity:  " + uvResponse.daily[2].humidity);
+        
+        $(".day3date").text(moment(md).add(threeDay).format('l'));
+        $(".day3icon").html(owclass3);
+        $(".day3temp").text("Temp F: " + uvResponse.daily[3].temp.day);
+        $(".day3humid").text("Humidity:  " + uvResponse.daily[3].humidity);
+        
+        $(".day4date").text(moment(md).add(fourDay).format('l'));
+        $(".day4icon").html(owclass4);
+        $(".day4temp").text("Temp F: " + uvResponse.daily[4].temp.day);
+        $(".day4humid").text("Humidity:  " + uvResponse.daily[4].humidity);
+        
+        $(".day5date").text(moment(md).add(fiveDay).format('l'));
+        $(".day5icon").html(owclass5);
+        $(".day5temp").text("Temp F: " + uvResponse.daily[5].temp.day);
+        $(".day5humid").text("Humidity:  " + uvResponse.daily[5].humidity);        
+    
+      });
+
+  });
+
+  //capitalize the city 
+  let capcity = city.charAt(0).toUpperCase();
+  capcity = capcity + city.slice(1);
+  city = capcity;
+
+  //add new city to top of list 
+  cities.unshift(city);
+
+  // store the cities list to local storage 
+  localStorage.setItem("weatherCities", JSON.stringify(cities));
+
+  //update cities array 
+  updateButtons();
+  
+  //clear input box 
+  $("#city-input").val("");
+  
+
+};
+
+
+//_________________________________________________________________
 
 function updateButtons() {
 
@@ -17,7 +172,7 @@ function updateButtons() {
   if (cityStore !== null) {
     cities = cityStore;
   } else {
-    cities = ["Laurens", "Columbia", "New York", "San Francisco", "Raleigh"];  
+    cities = ["Columbus", "Laurens", "Columbia", "New York"];
   };
 
   // Looping through the array of movies
@@ -47,10 +202,7 @@ $("#add-city").on("click", function(event) {
 
 
   console.log("City = " + city);
-  // 
   
- 
-
   // This is our API key
   var APIKey = "f1ae5ec6cb6b9f1dfc10836e21d90fc2";
 
@@ -356,10 +508,10 @@ function displayCityInfo() {
 
 
 // Calling the renderButtons function at least once to display the initial list of cities
-//renderButtons();
+
 $(document).on("click", ".list-group-item ", displayCityInfo);
 
 
 
-
-updateButtons();
+weatherStart();
+//updateButtons();
